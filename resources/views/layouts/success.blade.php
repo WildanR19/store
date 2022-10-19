@@ -9,10 +9,6 @@
 
     <title>@yield('title')</title>
 
-    <!-- Fonts -->
-{{--    <link rel="dns-prefetch" href="//fonts.gstatic.com">--}}
-{{--    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">--}}
-
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('prepend-style')
@@ -21,9 +17,6 @@
 </head>
 <body>
 <div id="app">
-    {{--    navbar --}}
-    @include('components.navbar')
-
     {{--    Page Content --}}
     @yield('content')
 

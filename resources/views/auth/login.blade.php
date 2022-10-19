@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
+<div class="container" style="display: none">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -64,6 +64,47 @@
                                 @endif
                             </div>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-content page-auth">
+    <div class="section-store-auth" data-aos="fade-up">
+        <div class="container">
+            <div class="row align-items-center row-login">
+                <div class="col-lg-6 text-center">
+                    <img
+                        src="/images/login-placeholder.png"
+                        alt=""
+                        class="w-50 mb-4 mb-lg-none"
+                    />
+                </div>
+                <div class="col-lg-6">
+                    <h2>Belanja kebutuhan utama, menjadi lebih mudah</h2>
+                    <form action="" class="mt-3">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control w-75" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control w-75" />
+                        </div>
+                        <button
+                            href="/dashboard.html"
+                            class="btn btn-success w-75 btn-block mt-4"
+                        >
+                            Sign In to My Account
+                        </button>
+                        <a
+                            href="{{ url('register') }}"
+                            class="btn btn-signup btn-block w-75 mt-2"
+                        >
+                            Sign Up
+                        </a>
                     </form>
                 </div>
             </div>
