@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Dashboard\AccountController;
-use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\Dashboard\ProductController;
-use App\Http\Controllers\Dashboard\StoreController;
-use App\Http\Controllers\Dashboard\TransactionController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\{Admin\DashboardController as AdminDashboardController,
+    Admin\CategoryController as AdminCategoryController,
+    Auth\RegisterController,
+    CartController,
+    CategoryController,
+    Dashboard\AccountController,
+    Dashboard\DashboardController,
+    Dashboard\ProductController,
+    Dashboard\StoreController,
+    Dashboard\TransactionController,
+    HomeController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,3 +42,9 @@ Route::get('/dashboard/transaction', [TransactionController::class, 'index'])->n
 Route::get('/dashboard/transaction/{id}', [TransactionController::class, 'details'])->name('dashboard.transaction.details');
 Route::get('/dashboard/store', [StoreController::class, 'index'])->name('dashboard.store');
 Route::get('/dashboard/account', [AccountController::class, 'index'])->name('dashboard.account');
+
+Route::prefix('admin')
+    ->group(function() {
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
+        Route::resource('categories', AdminCategoryController::class);
+    });
