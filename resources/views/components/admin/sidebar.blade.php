@@ -9,7 +9,7 @@
             Dashboard
         </a>
         <a
-            href="{{ route('dashboard.product') }}"
+            href="{{ route('product.index') }}"
             class="list-group-item list-group-item-action">
             Products
         </a>
