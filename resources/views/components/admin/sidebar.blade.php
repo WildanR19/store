@@ -10,8 +10,13 @@
         </a>
         <a
             href="{{ route('product.index') }}"
-            class="list-group-item list-group-item-action">
+            class="list-group-item list-group-item-action {{ request()->is('admin/product') ? 'active' : '' }}">
             Products
+        </a>
+        <a
+            href="{{ route('product-gallery.index') }}"
+            class="list-group-item list-group-item-action {{ request()->is('admin/product-gallery*') ? 'active' : '' }}">
+            Product Galleries
         </a>
         <a
             href="{{ route('category.index') }}"

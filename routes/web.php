@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{Admin\DashboardController as AdminDashboardController,
     Admin\CategoryController as AdminCategoryController,
+    Admin\ProductGalleryController,
     Admin\UserController,
     Auth\RegisterController,
     CartController,
@@ -50,4 +51,5 @@ Route::prefix('admin')
         Route::resource('category', AdminCategoryController::class);
         Route::resource('user', UserController::class);
         Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
+        Route::resource('product-gallery', ProductGalleryController::class);
     });

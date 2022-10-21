@@ -39,7 +39,7 @@ class UserController extends Controller
                         </div>
                     ';
                 })
-                ->rawColumns(['photo', 'action'])
+                ->rawColumns(['action'])
                 ->make();
         }
         return view('pages.admin.user.index');
