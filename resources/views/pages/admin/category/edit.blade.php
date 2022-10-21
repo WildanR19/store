@@ -18,7 +18,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('categories.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('category.update', $item->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card">
@@ -26,14 +26,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Category Name</label>
-                                        <input type="text" class="form-control" name="name" required value="{{ $item->name }}" />
+                                        <label for="name">Category Name</label>
+                                        <input id="name" type="text" class="form-control" name="name" required value="{{ $item->name }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Photo</label>
-                                        <input type="file" class="form-control" name="photo" placeholder="Photo" />
+                                        <label for="photo">Photo</label>
+                                        <input id="photo" type="file" class="form-control" name="photo" placeholder="Photo" />
                                     </div>
                                 </div>
                             </div>

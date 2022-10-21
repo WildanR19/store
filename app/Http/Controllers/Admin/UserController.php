@@ -4,19 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
+use App\Http\Requests\Admin\UserRequest;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class CategoryController extends Controller
+class UserController extends Controller
 {
     public function index()
     {
         if (request()->ajax())
         {
-            $query = Category::query();
+            $query = User::query();
 
             return DataTables::of($query)
                 ->addColumn('action', function($item) {
@@ -27,8 +29,8 @@ class CategoryController extends Controller
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a href="'. route('category.edit', $item->id) .'" class="dropdown-item">Edit</a>
-                                    <form action="'. route('category.destroy', $item->id) .'" method="post">
+                                    <a href="'. route('user.edit', $item->id) .'" class="dropdown-item">Edit</a>
+                                    <form action="'. route('user.destroy', $item->id) .'" method="post">
                                     '. csrf_field().''. method_field('delete') .'
                                         <button class="dropdown-item text-danger" type="submit">Delete</button>
                                     </form>
@@ -37,31 +39,24 @@ class CategoryController extends Controller
                         </div>
                     ';
                 })
-                ->editColumn('photo', function ($item) {
-                    return $item->photo ? '
-                        <img src="'. Storage::url($item->photo) .'" alt="'.$item->name.'" style="max-height: 40px" />' : '';
-                })
                 ->rawColumns(['photo', 'action'])
                 ->make();
         }
-        return view('pages.admin.category.index');
+        return view('pages.admin.user.index');
     }
 
     public function create()
     {
-        return view('pages.admin.category.create');
+        return view('pages.admin.user.create');
     }
 
-    public function store(CategoryRequest $request)
+    public function store(UserRequest $request)
     {
         $data = $request->all();
+        $data['password'] = bcrypt($request->password);
+        User::create($data);
 
-        $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
-
-        Category::create($data);
-
-        return redirect()->route('category.index');
+        return redirect()->route('user.index');
     }
 
     public function show($id)
@@ -71,29 +66,32 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-        $item = Category::findOrFail($id);
+        $item = User::findOrFail($id);
 
-        return view('pages.admin.category.edit', [
+        return view('pages.admin.user.edit', [
             'item' => $item,
         ]);
     }
 
-    public function update(CategoryRequest $request, $id)
+    public function update(UserRequest $request, $id)
     {
         $data = $request->all();
 
-        $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        } else {
+            unset($data['password']);
+        }
 
-        $category = Category::findOrFail($id);
-        $category->update($data);
+        $User = User::findOrFail($id);
+        $User->update($data);
 
-        return redirect()->route('category.index');
+        return redirect()->route('user.index');
     }
 
     public function destroy($id)
     {
-        $data = Category::findOrFail($id);
+        $data = User::findOrFail($id);
         $data->delete();
 
         return redirect()->back();

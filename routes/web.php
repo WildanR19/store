@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{Admin\DashboardController as AdminDashboardController,
     Admin\CategoryController as AdminCategoryController,
+    Admin\UserController,
     Auth\RegisterController,
     CartController,
     CategoryController,
@@ -46,5 +47,6 @@ Route::get('/dashboard/account', [AccountController::class, 'index'])->name('das
 Route::prefix('admin')
     ->group(function() {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
-        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('category', AdminCategoryController::class);
+        Route::resource('user', UserController::class);
     });
