@@ -28,7 +28,9 @@
     @yield('content')
 
     {{--    Footer --}}
-    @include('components.footer')
+    <div style="margin-top: 150px;">
+        @include('components.footer')
+    </div>
 
     {{--    Script --}}
     @stack('prepend-script')

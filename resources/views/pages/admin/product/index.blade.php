@@ -15,7 +15,7 @@
                             + Tambah Product Baru
                         </a>
                         <div class="table-responsive">
-                            <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
+                            <table class="table table-hover scroll-horizontal-vertical w-100" id="productTable">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -38,7 +38,7 @@
 
 @push('addon-script')
     <script>
-        const dataTable = $('#crudTable').DataTable({
+        const dataTable = $('#productTable').DataTable({
             processing: true,
             serverSide: true,
             ordering: true,

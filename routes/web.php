@@ -30,6 +30,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+Route::get('/categories/{id}', [CategoryController::class, 'detail'])->name('categories.detail');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/details/{id}', [HomeController::class, 'details'])->name('details');
 Route::get('/success', [HomeController::class, 'success'])->name('success');
@@ -46,6 +47,7 @@ Route::get('/dashboard/store', [StoreController::class, 'index'])->name('dashboa
 Route::get('/dashboard/account', [AccountController::class, 'index'])->name('dashboard.account');
 
 Route::prefix('admin')
+    ->middleware('admin')
     ->group(function() {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
         Route::resource('category', AdminCategoryController::class);
