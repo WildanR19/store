@@ -32,7 +32,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('/categories/{id}', [CategoryController::class, 'detail'])->name('categories.detail');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
-Route::get('/details/{id}', [HomeController::class, 'details'])->name('details');
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.delete');
+Route::get('/details/{slug}', [HomeController::class, 'details'])->name('details');
+Route::post('/add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('addToCart');
 Route::get('/success', [HomeController::class, 'success'])->name('success');
 Route::get('/register/success', [RegisterController::class, 'success'])->name('register-success');
 

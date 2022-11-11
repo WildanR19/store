@@ -51,8 +51,8 @@
                                         :src="photo.url"
                                         class="w-100 thumbnail-image"
                                         alt="thumbnail gallery"
-                                        :class="{active: index ===
-                    activePhoto}"
+                                        style="max-height: 548px;"
+                                        :class="{active: index === activePhoto}"
                                     />
                                 </a>
                             </div>
@@ -62,21 +62,24 @@
             </div>
         </section>
 
-        <div class="store-details-container" data-aos="fade-up">
+        <div class="store-details-container mt-3" data-aos="fade-up">
             <section class="store-heading">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h1>Sofa Ternyaman</h1>
-                            <div class="owner">By Rudi Tabuti</div>
-                            <div class="price">$1,409</div>
+                            <h1>{{ $product->name }}</h1>
+                            <div class="owner">By {{ $product->user->store_name }}</div>
+                            <div class="price">${{ number_format($product->price) }}</div>
                         </div>
                         <div class="col-lg-2" data-aos="zoom-in">
-                            <a
-                                href="/cart.html"
-                                class="btn btn-success px-4 text-white btn-block mb-3"
-                            >Add to Cart</a
-                            >
+                            @auth
+                                <form action="{{ route('addToCart', $product->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <button class="btn btn-success px-4 text-white btn-block mb-3" type="submit">Add to Cart</button>
+                                </form>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-success px-4 text-white btn-block mb-3">Sign in to Add</a>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -85,20 +88,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-8">
-                            <p>
-                                The Nike Air Max 720 SE goes bigger than ever before with
-                                Nike's tallest Air unit yet for unimaginable, all-day comfort.
-                                There's super breathable fabrics on the upper, while colours
-                                add a modern edge.
-                            </p>
-                            <p>
-                                Bring the past into the future with the Nike Air Max 2090, a
-                                bold look inspired by the DNA of the iconic Air Max 90.
-                                Brand-new Nike Air cushioning underfoot adds unparalleled
-                                comfort while transparent mesh and vibrantly coloured details
-                                on the upper are blended with timeless OG features for an
-                                edgy, modernised look.
-                            </p>
+                            {!! $product->description !!}
                         </div>
                     </div>
                 </div>
@@ -115,7 +105,7 @@
                             <ul class="list-unstyled">
                                 <li class="media">
                                     <img
-                                        src="/images/icon-testimonial-1.png"
+                                        src="{{ url('/images/icon-testimonial-1.png') }}"
                                         alt="review1"
                                         class="mr-3 rounded-circle"
                                     />
@@ -128,7 +118,7 @@
                                 </li>
                                 <li class="media">
                                     <img
-                                        src="/images/icon-testimonial-2.png"
+                                        src="{{ url('/images/icon-testimonial-2.png') }}"
                                         alt="review2"
                                         class="mr-3 rounded-circle"
                                     />
@@ -141,7 +131,7 @@
                                 </li>
                                 <li class="media">
                                     <img
-                                        src="/images/icon-testimonial-3.png"
+                                        src="{{ url('/images/icon-testimonial-3.png') }}"
                                         alt="review3"
                                         class="mr-3 rounded-circle"
                                     />
@@ -172,22 +162,12 @@
             data: {
                 activePhoto: 0,
                 photos: [
-                    {
-                        id: 1,
-                        url: "/images/product-details-1.jpg",
-                    },
-                    {
-                        id: 2,
-                        url: "/images/product-details-2.jpg",
-                    },
-                    {
-                        id: 3,
-                        url: "/images/product-details-3.jpg",
-                    },
-                    {
-                        id: 4,
-                        url: "/images/product-details-4.jpg",
-                    },
+                    @foreach($product->gallery as $photo)
+                        {
+                            id: {{ $photo->id }},
+                            url: "{{ Storage::url($photo->photo) }}",
+                        },
+                    @endforeach
                 ],
             },
             methods: {

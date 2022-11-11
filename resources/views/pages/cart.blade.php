@@ -38,60 +38,42 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <img
-                                        src="/images/product-cart-1.jpg"
-                                        alt=""
-                                        class="cart-image"
-                                    />
-                                </td>
-                                <td>
-                                    <div class="product-title">Sofa Ternyaman</div>
-                                    <div class="product-subtitle">by Andi Sukka</div>
-                                </td>
-                                <td>
-                                    <div class="product-title">$29,112</div>
-                                    <div class="product-subtitle">USD</div>
-                                </td>
-                                <td><a href="#" class="btn btn-remove-cart">Remove</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img
-                                        src="/images/product-cart-2.jpg"
-                                        alt=""
-                                        class="cart-image"
-                                    />
-                                </td>
-                                <td>
-                                    <div class="product-title">Sneaker</div>
-                                    <div class="product-subtitle">by BuildWith Angga</div>
-                                </td>
-                                <td>
-                                    <div class="product-title">$80,309</div>
-                                    <div class="product-subtitle">USD</div>
-                                </td>
-                                <td><a href="#" class="btn btn-remove-cart">Remove</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img
-                                        src="/images/product-cart-3.jpg"
-                                        alt=""
-                                        class="cart-image"
-                                    />
-                                </td>
-                                <td>
-                                    <div class="product-title">Coffee Holder</div>
-                                    <div class="product-subtitle">by Addictex</div>
-                                </td>
-                                <td>
-                                    <div class="product-title">$13,492</div>
-                                    <div class="product-subtitle">USD</div>
-                                </td>
-                                <td><a href="#" class="btn btn-remove-cart">Remove</a></td>
-                            </tr>
+                            @php $total_price = 0; @endphp
+                            @foreach($carts as $cart)
+                                <tr>
+                                    <td>
+                                        @if(count($cart->product->gallery))
+                                            <img
+                                                src="{{ Storage::url($cart->product->gallery->first()->photo) }}"
+                                                alt="{{ $cart->product->name }}"
+                                                class="cart-image"
+                                            />
+                                        @else
+                                            <img
+                                                src="{{ url('/images/empty.jpg') }}"
+                                                alt="{{ $cart->product->name }}"
+                                                class="cart-image"
+                                            />
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="product-title">{{ $cart->product->name }}</div>
+                                        <div class="product-subtitle">by {{ $cart->product->user->store_name }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="product-title">${{ $cart->product->price }}</div>
+                                        <div class="product-subtitle">USD</div>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('cart.delete', $cart->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-remove-cart">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @php $total_price += $cart->product->price; @endphp
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -106,81 +88,90 @@
                     <div class="col-12">
                         <h2 class="mb-4">Shipping Details</h2>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="addressOne">Address 1</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="addressOne"
-                                name="addressOne"
-                                value="Setra Duta Cemara"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="addressTwo">Address 2</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="addressTwo"
-                                name="addressTwo"
-                                value="Blok B2 No. 34"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="province">Province</label>
-                            <select name="province" id="province" class="form-control">
-                                <option value="West Java">West Java</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="city">City</label>
-                            <select name="city" id="city" class="form-control">
-                                <option value="Bandung">Bandung</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="postalCode">Postal Code</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="postalCode"
-                                name="postalCode"
-                                value="123999"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="country">Country</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="country"
-                                name="country"
-                                value="Indonesia"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="mobile">Mobile</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="mobile"
-                                name="mobile"
-                                value="+6282 0201 1111"
-                            />
-                        </div>
+                    <div class="col-12">
+                        <form action="" method="POST" id="locations">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address_one">Address 1</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="address_one"
+                                            name="address_one"
+                                            value="Setra Duta Cemara"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address_two">Address 2</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="address_two"
+                                            name="address_two"
+                                            value="Blok B2 No. 34"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="province">Province</label>
+                                        <select name="province_id" id="province" class="form-control" v-if="provinces" v-model="province_id">
+                                            <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                        </select>
+                                        <select v-else class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <select name="regencies_id" id="city" class="form-control" v-if="regencies" v-model="regency_id">
+                                            <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
+                                        </select>
+                                        <select v-else class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="postalCode">Postal Code</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="postalCode"
+                                            name="zip_code"
+                                            value="123999"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="country"
+                                            name="country"
+                                            value="Indonesia"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="mobile"
+                                            name="phone_number"
+                                            value="+6282 0201 1111"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -189,19 +180,19 @@
                         <h2>Payment Informations</h2>
                     </div>
                     <div class="col-4 col-md-2">
-                        <div class="product-title">$10</div>
+                        <div class="product-title">$0</div>
                         <div class="product-subtitle">Country Tax</div>
                     </div>
                     <div class="col-4 col-md-2">
-                        <div class="product-title">$280</div>
+                        <div class="product-title">$0</div>
                         <div class="product-subtitle">Product Insurance</div>
                     </div>
                     <div class="col-4 col-md-2">
-                        <div class="product-title">$580</div>
+                        <div class="product-title">$0</div>
                         <div class="product-subtitle">Ship to Bandung</div>
                     </div>
                     <div class="col-4 col-md-2">
-                        <div class="product-title text-success">$392,409</div>
+                        <div class="product-title text-success">${{ $total_price }}</div>
                         <div class="product-subtitle">Total</div>
                     </div>
                     <div class="col-8 col-md-3">
@@ -214,3 +205,46 @@
         </section>
     </div>
 @endsection
+
+
+@push('addon-script')
+    <script src="/vendor/vue/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const locations = new Vue({
+            el: "#locations",
+            mounted() {
+                AOS.init();
+                this.getProvincesData()
+            },
+            data: {
+                provinces: null,
+                regencies: null,
+                province_id: null,
+                regency_id: null,
+            },
+            methods: {
+                getProvincesData() {
+                    const self = this;
+                    axios.get("{{ route('api.location.province') }}")
+                        .then(function (response) {
+                            self.provinces = response.data
+                        });
+                },
+                getRegenciesData() {
+                    const self = this;
+                    axios.get("{{ url('api/location/regency') }}/" + self.province_id)
+                        .then(function (response) {
+                            self.regencies = response.data
+                        });
+                }
+            },
+            watch: {
+                province_id: function (val, oldVal) {
+                    this.getRegenciesData()
+                    this.regency_id = null
+                }
+            }
+        });
+    </script>
+@endpush
