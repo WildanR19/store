@@ -88,94 +88,93 @@
                     <div class="col-12">
                         <h2 class="mb-4">Shipping Details</h2>
                     </div>
-                    <div class="col-12">
-                        <form action="" method="POST" id="locations">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="address_one">Address 1</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="address_one"
-                                            name="address_one"
-                                            value="Setra Duta Cemara"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="address_two">Address 2</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="address_two"
-                                            name="address_two"
-                                            value="Blok B2 No. 34"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="province">Province</label>
-                                        <select name="province_id" id="province" class="form-control" v-if="provinces" v-model="province_id">
-                                            <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
-                                        </select>
-                                        <select v-else class="form-control"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="city">City</label>
-                                        <select name="regencies_id" id="city" class="form-control" v-if="regencies" v-model="regency_id">
-                                            <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
-                                        </select>
-                                        <select v-else class="form-control"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="postalCode">Postal Code</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="postalCode"
-                                            name="zip_code"
-                                            value="123999"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="country">Country</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="country"
-                                            name="country"
-                                            value="Indonesia"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mobile">Mobile</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="mobile"
-                                            name="phone_number"
-                                            value="+6282 0201 1111"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
 
-                <div class="row" data-aos="fade-up" data-aos-delay="200">
+                <form action="{{ route('checkout') }}" method="POST" id="locations">
+                    @csrf
+                    <input type="hidden" name="total_price" value="{{ $total_price }}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_one">Address 1</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="address_one"
+                                    name="address_one"
+                                    value="Setra Duta Cemara"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_two">Address 2</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="address_two"
+                                    name="address_two"
+                                    value="Blok B2 No. 34"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="province">Province</label>
+                                <select name="province_id" id="province" class="form-control" v-if="provinces" v-model="province_id">
+                                    <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                </select>
+                                <select v-else class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <select name="regencies_id" id="city" class="form-control" v-if="regencies" v-model="regency_id">
+                                    <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
+                                </select>
+                                <select v-else class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="postalCode">Postal Code</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="postalCode"
+                                    name="zip_code"
+                                    value="123999"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="country"
+                                    name="country"
+                                    value="Indonesia"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="mobile">Mobile</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="mobile"
+                                    name="phone_number"
+                                    value="+6282 0201 1111"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" data-aos="fade-up" data-aos-delay="200">
                     <div class="col-12 mb-2">
                         <h2>Payment Informations</h2>
                     </div>
@@ -196,11 +195,12 @@
                         <div class="product-subtitle">Total</div>
                     </div>
                     <div class="col-8 col-md-3">
-                        <a href="success.html" class="btn btn-success btn-block mt-4 px-4"
-                        >Checkout Now</a
+                        <button type="submit" class="btn btn-success btn-block mt-4 px-4"
+                        >Checkout Now</button
                         >
                     </div>
                 </div>
+                </form>
             </div>
         </section>
     </div>

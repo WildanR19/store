@@ -7,6 +7,7 @@ use App\Http\Controllers\{Admin\DashboardController as AdminDashboardController,
     Auth\RegisterController,
     CartController,
     CategoryController,
+    CheckoutController,
     Dashboard\AccountController,
     Dashboard\DashboardController,
     Dashboard\ProductController,
@@ -31,22 +32,31 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('/categories/{id}', [CategoryController::class, 'detail'])->name('categories.detail');
-Route::get('/cart', [CartController::class, 'index'])->name('cart');
-Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 Route::get('/details/{slug}', [HomeController::class, 'details'])->name('details');
-Route::post('/add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('addToCart');
 Route::get('/success', [HomeController::class, 'success'])->name('success');
 Route::get('/register/success', [RegisterController::class, 'success'])->name('register-success');
 
-// dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/dashboard/product', [ProductController::class, 'index'])->name('dashboard.product');
-Route::get('/dashboard/product/{id}/detail', [ProductController::class, 'details'])->name('dashboard.product.details');
-Route::get('/dashboard/product/create', [ProductController::class, 'create'])->name('dashboard.product.create');
-Route::get('/dashboard/transaction', [TransactionController::class, 'index'])->name('dashboard.transaction');
-Route::get('/dashboard/transaction/{id}', [TransactionController::class, 'details'])->name('dashboard.transaction.details');
-Route::get('/dashboard/store', [StoreController::class, 'index'])->name('dashboard.store');
-Route::get('/dashboard/account', [AccountController::class, 'index'])->name('dashboard.account');
+Route::post('/checkout/callback', [CheckoutController::class, 'callback'])->name('midtrans-callback');
+
+Route::middleware('auth')->group(function () {
+    //cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.delete');
+    Route::post('/add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('addToCart');
+
+    //checkout
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout');
+
+    // dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/product', [ProductController::class, 'index'])->name('dashboard.product');
+    Route::get('/dashboard/product/{id}/detail', [ProductController::class, 'details'])->name('dashboard.product.details');
+    Route::get('/dashboard/product/create', [ProductController::class, 'create'])->name('dashboard.product.create');
+    Route::get('/dashboard/transaction', [TransactionController::class, 'index'])->name('dashboard.transaction');
+    Route::get('/dashboard/transaction/{id}', [TransactionController::class, 'details'])->name('dashboard.transaction.details');
+    Route::get('/dashboard/store', [StoreController::class, 'index'])->name('dashboard.store');
+    Route::get('/dashboard/account', [AccountController::class, 'index'])->name('dashboard.account');
+});
 
 Route::prefix('admin')
     ->middleware('admin')
