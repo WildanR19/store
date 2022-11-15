@@ -34,22 +34,38 @@
                     aria-expanded="false"
                 >
                     <img
-                        src="/images/icon-user.png"
+                        src="{{ url('/images/icon-user.png') }}"
                         alt=""
                         class="rounded-circle mr-2 profile-picture"
                     />
-                    Hi, Angga
+                    Hi, {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/">Logout</a>
+                    <a class="dropdown-item" href="{{ route('home') }}">Back to Store</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
                 </div>
             </li>
         </ul>
         <!-- Mobile Menu -->
         <ul class="navbar-nav d-block d-lg-none mt-3">
             <li class="nav-item">
-                <a class="nav-link" href="#"> Hi, Angga </a>
+                <a class="nav-link" href="#"> Hi, {{ Auth::user()->name }} </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('home') }}">Back to Store</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
             </li>
         </ul>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </div>
 </nav>
