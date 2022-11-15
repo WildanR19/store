@@ -9,7 +9,8 @@
     <div class="dashboard-content">
         <div class="row">
             <div class="col-12">
-                <form action="">
+                <form action="{{ route('dashboard.setting.update') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -21,8 +22,8 @@
                                             class="form-control"
                                             id="storeName"
                                             aria-describedby="emailHelp"
-                                            name="storeName"
-                                            value="Papel La Casa"
+                                            name="store_name"
+                                            value="{{ $user->store_name }}"
                                         />
                                     </div>
                                 </div>
@@ -30,11 +31,13 @@
                                     <div class="form-group">
                                         <label for="category">Category</label>
                                         <select
-                                            name="category"
+                                            name="category_id"
                                             id="category"
                                             class="form-control"
                                         >
-                                            <option value="Furniture">Furniture</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}" {{ $category->id == $user->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -44,41 +47,37 @@
                                     <div class="form-group">
                                         <label for="is_store_open">Store Status</label>
                                         <p class="text-muted">
-                                            Apakah saat ini toko Anda buka?
+                                            Is your store currently open?
                                         </p>
-                                        <div
-                                            class="custom-control custom-radio custom-control-inline"
-                                        >
+                                        <div class="custom-control custom-radio custom-control-inline">
                                             <input
                                                 class="custom-control-input"
                                                 type="radio"
-                                                name="is_store_open"
+                                                name="store_status"
                                                 id="openStoreTrue"
-                                                value="true"
-                                                checked
+                                                value="1"
+                                                {{ $user->store_status ? 'checked' : '' }}
                                             />
                                             <label
                                                 class="custom-control-label"
-                                                for="openStoreTrue"
-                                            >Buka</label
-                                            >
+                                                for="openStoreTrue">
+                                                Open
+                                            </label>
                                         </div>
-                                        <div
-                                            class="custom-control custom-radio custom-control-inline"
-                                        >
+                                        <div class="custom-control custom-radio custom-control-inline">
                                             <input
                                                 class="custom-control-input"
                                                 type="radio"
-                                                name="is_store_open"
+                                                name="store_status"
                                                 id="openStoreFalse"
-                                                value="false"
+                                                value="0"
+                                                {{ $user->store_status ? '' : 'checked' }}
                                             />
                                             <label
-                                                makasih
                                                 class="custom-control-label"
-                                                for="openStoreFalse"
-                                            >Tutup Sementara</label
-                                            >
+                                                for="openStoreFalse">
+                                                Temporarily Closed
+                                            </label>
                                         </div>
                                     </div>
                                 </div>

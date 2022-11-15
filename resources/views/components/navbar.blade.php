@@ -60,8 +60,9 @@
                         </a>
                         <div class="dropdown-menu">
                             @if(Auth::user()->roles == 'ADMIN')
-                            <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                                <a href="{{ route('admin') }}" class="dropdown-item">Admin Dashboard</a>
                             @endif
+                            <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
                             <a href="/" class="dropdown-item">Settings</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
@@ -100,17 +101,34 @@
                             role="button"
                             data-toggle="dropdown"
                         >
-                            Hi, Budi
+                            Hi, {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu">
-                            <a href="/" class="dropdown-item">Dashboard</a>
+                            <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
                             <a href="/" class="dropdown-item">Settings</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/" class="dropdown-item">Logout</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block">Cart</a>
+                        <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                            @php
+                                $carts = \App\Models\Cart::where('user_id', Auth::user()->id)->count();
+                            @endphp
+                            @if($carts > 0)
+                                <img src="{{ url('/images/icon-cart-filled.svg') }}" alt="cart" />
+                                <span class="card-badge">{{ $carts }}</span>
+                            @else
+                                <img src="{{ url('/images/icon-cart-empty.svg') }}" alt="cart" />
+                            @endif
+                        </a>
                     </li>
                 </ul>
             @endauth

@@ -8,10 +8,9 @@ use App\Http\Controllers\{Admin\DashboardController as AdminDashboardController,
     CartController,
     CategoryController,
     CheckoutController,
-    Dashboard\AccountController,
     Dashboard\DashboardController,
     Dashboard\ProductController,
-    Dashboard\StoreController,
+    Dashboard\SettingController,
     Dashboard\TransactionController,
     HomeController};
 use Illuminate\Support\Facades\Route;
@@ -49,13 +48,25 @@ Route::middleware('auth')->group(function () {
 
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // dashboard product
     Route::get('/dashboard/product', [ProductController::class, 'index'])->name('dashboard.product');
     Route::get('/dashboard/product/{id}/detail', [ProductController::class, 'details'])->name('dashboard.product.details');
+    Route::post('/dashboard/product/{id}', [ProductController::class, 'update'])->name('dashboard.product.update');
+    Route::post('/dashboard/product-gallery/', [ProductController::class, 'uploadGallery'])->name('dashboard.product.gallery.upload');
+    Route::get('/dashboard/product-gallery/{id}', [ProductController::class, 'deleteGallery'])->name('dashboard.product.gallery.delete');
     Route::get('/dashboard/product/create', [ProductController::class, 'create'])->name('dashboard.product.create');
+    Route::post('/dashboard/product', [ProductController::class, 'store'])->name('dashboard.product.store');
+
+    // dashboard transaction
     Route::get('/dashboard/transaction', [TransactionController::class, 'index'])->name('dashboard.transaction');
     Route::get('/dashboard/transaction/{id}', [TransactionController::class, 'details'])->name('dashboard.transaction.details');
-    Route::get('/dashboard/store', [StoreController::class, 'index'])->name('dashboard.store');
-    Route::get('/dashboard/account', [AccountController::class, 'index'])->name('dashboard.account');
+    Route::post('/dashboard/transaction/{id}', [TransactionController::class, 'update'])->name('dashboard.transaction.update');
+
+    // dashboard setting
+    Route::get('/dashboard/store', [SettingController::class, 'storeIndex'])->name('dashboard.store');
+    Route::get('/dashboard/account', [SettingController::class, 'accountIndex'])->name('dashboard.account');
+    Route::post('/dashboard/setting', [SettingController::class, 'update'])->name('dashboard.setting.update');
 });
 
 Route::prefix('admin')

@@ -9,7 +9,8 @@
     <div class="dashboard-content">
         <div class="row">
             <div class="col-12">
-                <form action="">
+                <form action="{{ route('dashboard.setting.update') }}" method="post" id="accountForm">
+                    @csrf
                     <div class="card">
                         <div class="card-body">
                             <div class="row mb-2">
@@ -22,7 +23,7 @@
                                             id="name"
                                             aria-describedby="emailHelp"
                                             name="name"
-                                            value="Papel La Casa"
+                                            value="{{ $user->name }}"
                                         />
                                     </div>
                                 </div>
@@ -35,7 +36,7 @@
                                             id="email"
                                             aria-describedby="emailHelp"
                                             name="email"
-                                            value="email@gmail.com"
+                                            value="{{ $user->email }}"
                                         />
                                     </div>
                                 </div>
@@ -47,8 +48,8 @@
                                             class="form-control"
                                             id="addressOne"
                                             aria-describedby="emailHelp"
-                                            name="addressOne"
-                                            value="Setra Duta Cemara"
+                                            name="address_one"
+                                            value="{{ $user->address_one }}"
                                         />
                                     </div>
                                 </div>
@@ -60,33 +61,27 @@
                                             class="form-control"
                                             id="addressTwo"
                                             aria-describedby="emailHelp"
-                                            name="addressTwo"
-                                            value="Blok B2 No. 34"
+                                            name="address_two"
+                                            value="{{ $user->address_two }}"
                                         />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="province">Province</label>
-                                        <select
-                                            name="province"
-                                            id="province"
-                                            class="form-control"
-                                        >
-                                            <option value="West Java">West Java</option>
+                                        <select name="province_id" id="province" class="form-control" v-if="provinces" v-model="province_id">
+                                            <option v-for="province in provinces" :value="province.id" :selected="province.id === province_id">@{{ province.name }}</option>
                                         </select>
+                                        <select v-else class="form-control"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="city">City</label>
-                                        <select
-                                            name="city"
-                                            id="city"
-                                            class="form-control"
-                                        >
-                                            <option value="Bandung">Bandung</option>
+                                        <select name="regencies_id" id="city" class="form-control" v-if="regencies" v-model="regency_id">
+                                            <option v-for="regency in regencies" :value="regency.id" :selected="regency.id === regency_id">@{{ regency.name }}</option>
                                         </select>
+                                        <select v-else class="form-control"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -96,8 +91,8 @@
                                             type="text"
                                             class="form-control"
                                             id="postalCode"
-                                            name="postalCode"
-                                            value="40512"
+                                            name="zip_code"
+                                            value="{{ $user->zip_code }}"
                                         />
                                     </div>
                                 </div>
@@ -109,7 +104,7 @@
                                             class="form-control"
                                             id="country"
                                             name="country"
-                                            value="Indonesia"
+                                            value="{{ $user->country }}"
                                         />
                                     </div>
                                 </div>
@@ -120,8 +115,8 @@
                                             type="text"
                                             class="form-control"
                                             id="mobile"
-                                            name="mobile"
-                                            value="+628 2020 11111"
+                                            name="phone_number"
+                                            value="{{ $user->phone_number }}"
                                         />
                                     </div>
                                 </div>
@@ -143,3 +138,48 @@
         </div>
     </div>
 @endsection
+
+
+@push('addon-script')
+    <script src="/vendor/vue/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const locations = new Vue({
+            el: "#accountForm",
+            mounted() {
+                this.getProvincesData()
+                this.getRegenciesData()
+            },
+            data: {
+                provinces: null,
+                regencies: null,
+                province_id: {{ $user->province_id }},
+                regency_id: {{ $user->regencies_id }},
+                selected_province: {{ $user->province_id }},
+                selected_regency: {{ $user->regencies_id }},
+            },
+            methods: {
+                getProvincesData() {
+                    const self = this;
+                    axios.get("{{ route('api.location.province') }}")
+                        .then(function (response) {
+                            self.provinces = response.data
+                        });
+                },
+                getRegenciesData() {
+                    const self = this;
+                    axios.get("{{ url('api/location/regency') }}/" + self.province_id)
+                        .then(function (response) {
+                            self.regencies = response.data
+                        });
+                }
+            },
+            watch: {
+                province_id: function (val, oldVal) {
+                    this.getRegenciesData()
+                    this.regency_id = null
+                }
+            }
+        });
+    </script>
+@endpush
