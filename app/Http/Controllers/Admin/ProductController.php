@@ -14,12 +14,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        if (request()->ajax())
-        {
+        if (request()->ajax()) {
             $query = Product::with(['category', 'user']);
 
             return DataTables::of($query)
-                ->addColumn('action', function($item) {
+                ->addColumn('action', function ($item) {
                     return '
                         <div class="btn-group">
                             <div class="dropdown">
@@ -27,9 +26,9 @@ class ProductController extends Controller
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a href="'. route('product.edit', $item->id) .'" class="dropdown-item">Edit</a>
-                                    <form action="'. route('product.destroy', $item->id) .'" method="post">
-                                    '. csrf_field().''. method_field('delete') .'
+                                    <a href="'.route('product.edit', $item->id).'" class="dropdown-item">Edit</a>
+                                    <form action="'.route('product.destroy', $item->id).'" method="post">
+                                    '.csrf_field().''.method_field('delete').'
                                         <button class="dropdown-item text-danger" type="submit">Delete</button>
                                     </form>
                                 </div>
@@ -40,6 +39,7 @@ class ProductController extends Controller
                 ->rawColumns(['action'])
                 ->make();
         }
+
         return view('pages.admin.product.index');
     }
 
@@ -50,7 +50,7 @@ class ProductController extends Controller
 
         return view('pages.admin.product.create', [
             'users' => $users,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -77,7 +77,7 @@ class ProductController extends Controller
         return view('pages.admin.product.edit', [
             'product' => $product,
             'users' => $users,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 

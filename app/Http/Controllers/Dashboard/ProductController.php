@@ -30,7 +30,7 @@ class ProductController extends Controller
         return view('pages.dashboard.product.details',
             [
                 'product' => $product,
-                'categories' => $categories
+                'categories' => $categories,
             ]);
     }
 

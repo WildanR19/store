@@ -63,7 +63,7 @@
                                 <a href="{{ route('admin') }}" class="dropdown-item">Admin Dashboard</a>
                             @endif
                             <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
-                            <a href="/" class="dropdown-item">Settings</a>
+                            <a class="dropdown-item" href="{{ route('dashboard.account') }}">Settings</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

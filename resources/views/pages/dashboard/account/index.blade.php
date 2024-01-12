@@ -7,6 +7,9 @@
         <p class="dashboard-subtitle">Update your current profile</p>
     </div>
     <div class="dashboard-content">
+        @if($errors->any())
+            {{ implode('', $errors->all('<div>:message</div>')) }}
+        @endif
         <div class="row">
             <div class="col-12">
                 <form action="{{ route('dashboard.setting.update') }}" method="post" id="accountForm">
@@ -110,7 +113,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="mobile">Mobile</label>
+                                        <label for="mobile">Phone Number</label>
                                         <input
                                             type="text"
                                             class="form-control"
@@ -153,10 +156,10 @@
             data: {
                 provinces: null,
                 regencies: null,
-                province_id: {{ $user->province_id }},
-                regency_id: {{ $user->regencies_id }},
-                selected_province: {{ $user->province_id }},
-                selected_regency: {{ $user->regencies_id }},
+                province_id: {{ $user->province_id ?: 'null' }},
+                regency_id: {{ $user->regencies_id ?: 'null' }},
+                selected_province: {{ $user->province_id ?: 'null' }},
+                selected_regency: {{ $user->regencies_id ?: 'null' }},
             },
             methods: {
                 getProvincesData() {

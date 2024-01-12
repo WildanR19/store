@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Product $product
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery query()
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery wherePhoto($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductGallery whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class ProductGallery extends Model
@@ -29,7 +31,7 @@ class ProductGallery extends Model
     use HasFactory;
 
     protected $fillable = [
-        'photo', 'product_id'
+        'photo', 'product_id',
     ];
 
     public function product()

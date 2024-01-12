@@ -23,7 +23,7 @@ class TransactionController extends Controller
 
         return view('pages.dashboard.transaction.index', [
             'sellTransactions' => $sellTransactions,
-            'buyTransactions' => $buyTransactions
+            'buyTransactions' => $buyTransactions,
         ]);
     }
 
@@ -31,8 +31,9 @@ class TransactionController extends Controller
     {
         $transaction = TransactionDetail::with(['transaction.user', 'product.gallery'])
             ->findOrFail($id);
+
         return view('pages.dashboard.transaction.details', [
-            'transaction' => $transaction
+            'transaction' => $transaction,
         ]);
     }
 

@@ -102,7 +102,7 @@
                                     class="form-control"
                                     id="address_one"
                                     name="address_one"
-                                    value="Setra Duta Cemara"
+                                    value="{{ Auth::user()->address_one }}"
                                 />
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                                     class="form-control"
                                     id="address_two"
                                     name="address_two"
-                                    value="Blok B2 No. 34"
+                                    value="{{ Auth::user()->address_two }}"
                                 />
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                                     class="form-control"
                                     id="postalCode"
                                     name="zip_code"
-                                    value="123999"
+                                    value="{{ Auth::user()->zip_code }}"
                                 />
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                                     class="form-control"
                                     id="country"
                                     name="country"
-                                    value="Indonesia"
+                                    value="{{ Auth::user()->country }}"
                                 />
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                                     class="form-control"
                                     id="mobile"
                                     name="phone_number"
-                                    value="+6282 0201 1111"
+                                    value="{{ Auth::user()->phone_number }}"
                                 />
                             </div>
                         </div>
@@ -216,12 +216,13 @@
             mounted() {
                 AOS.init();
                 this.getProvincesData()
+                this.getRegenciesData()
             },
             data: {
                 provinces: null,
                 regencies: null,
-                province_id: null,
-                regency_id: null,
+                province_id: {{ $user->province_id ?: 'null' }},
+                regency_id: {{ $user->regencies_id ?: 'null' }},
             },
             methods: {
                 getProvincesData() {

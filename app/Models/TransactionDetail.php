@@ -9,7 +9,6 @@ class TransactionDetail extends Model
 {
     use HasFactory;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -21,14 +20,16 @@ class TransactionDetail extends Model
         'price',
         'resi',
         'shipping_status',
-        'code'
+        'code',
     ];
 
-    public function product() {
+    public function product()
+    {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
 
-    public function transaction() {
+    public function transaction()
+    {
         return $this->hasOne(Transaction::class, 'id', 'transaction_id');
     }
 }

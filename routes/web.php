@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\{Admin\DashboardController as AdminDashboardController,
-    Admin\CategoryController as AdminCategoryController,
-    Admin\ProductGalleryController,
-    Admin\UserController,
-    Auth\RegisterController,
-    CartController,
-    CategoryController,
-    CheckoutController,
-    Dashboard\DashboardController,
-    Dashboard\ProductController,
-    Dashboard\SettingController,
-    Dashboard\TransactionController,
-    HomeController};
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ProductGalleryController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\SettingController;
+use App\Http\Controllers\Dashboard\TransactionController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,7 +71,7 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')
     ->middleware('admin')
-    ->group(function() {
+    ->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
         Route::resource('category', AdminCategoryController::class);
         Route::resource('user', UserController::class);

@@ -6,7 +6,6 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Auth;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -14,17 +13,19 @@ class HomeController extends Controller
     {
         $categories = Category::take(6)->get();
         $products = Product::with('gallery')->take(8)->latest()->get();
+
         return view('pages.home', [
             'categories' => $categories,
-            'products' => $products
+            'products' => $products,
         ]);
     }
 
     public function details($slug)
     {
         $product = Product::with(['gallery', 'user'])->where('slug', $slug)->firstOrFail();
+
         return view('pages.details', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 
@@ -32,7 +33,7 @@ class HomeController extends Controller
     {
         $data = [
             'product_id' => $id,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
         ];
 
         Cart::create($data);

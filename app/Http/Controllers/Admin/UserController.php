@@ -3,25 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryRequest;
 use App\Http\Requests\Admin\UserRequest;
-use App\Models\Category;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
     public function index()
     {
-        if (request()->ajax())
-        {
+        if (request()->ajax()) {
             $query = User::query();
 
             return DataTables::of($query)
-                ->addColumn('action', function($item) {
+                ->addColumn('action', function ($item) {
                     return '
                         <div class="btn-group">
                             <div class="dropdown">
@@ -29,9 +23,9 @@ class UserController extends Controller
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a href="'. route('user.edit', $item->id) .'" class="dropdown-item">Edit</a>
-                                    <form action="'. route('user.destroy', $item->id) .'" method="post">
-                                    '. csrf_field().''. method_field('delete') .'
+                                    <a href="'.route('user.edit', $item->id).'" class="dropdown-item">Edit</a>
+                                    <form action="'.route('user.destroy', $item->id).'" method="post">
+                                    '.csrf_field().''.method_field('delete').'
                                         <button class="dropdown-item text-danger" type="submit">Delete</button>
                                     </form>
                                 </div>
@@ -42,6 +36,7 @@ class UserController extends Controller
                 ->rawColumns(['action'])
                 ->make();
         }
+
         return view('pages.admin.user.index');
     }
 

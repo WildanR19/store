@@ -29,4 +29,3 @@ Route::get('/location/regency/{province_id}', [LocationController::class, 'regen
 Route::get('/home', [HomeController::class, 'index'])->name('api.home');
 
 Route::resource('/admin/category', CategoryController::class);
-

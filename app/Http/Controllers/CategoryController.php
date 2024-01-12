@@ -19,7 +19,7 @@ class CategoryController extends Controller
 
         return view('pages.category', [
             'categories' => $categories,
-            'products' => $products
+            'products' => $products,
         ]);
     }
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
         return view('pages.category', [
             'ctg' => $category,
             'categories' => $categories,
-            'products' => $products
+            'products' => $products,
         ]);
     }
 }

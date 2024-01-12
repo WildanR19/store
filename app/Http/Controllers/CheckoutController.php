@@ -19,7 +19,7 @@ class CheckoutController extends Controller
         $user->update($request->except('total_price'));
 
         // create data transaction
-        $code = 'STORE-' . uniqid();
+        $code = 'STORE-'.uniqid();
         $transaction = Transaction::create([
             'user_id' => $user->id,
             'insurance_price' => 0,
@@ -29,12 +29,12 @@ class CheckoutController extends Controller
             'code' => $code,
         ]);
 
-        $carts = Cart::with(['user','product'])
+        $carts = Cart::with(['user', 'product'])
             ->where('user_id', $user->id)
             ->get();
 
         foreach ($carts as $cart) {
-            $trx = 'TRX-'. uniqid();
+            $trx = 'TRX-'.uniqid();
 
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
@@ -56,20 +56,19 @@ class CheckoutController extends Controller
         Config::$is3ds = config('services.midtrans.is3ds');
 
         $midtrans = [
-            "transaction_details" => [
-                "order_id" => $code,
-                "gross_amount" => (int) $request->total_price
+            'transaction_details' => [
+                'order_id' => $code,
+                'gross_amount' => (int) $request->total_price,
             ],
             'customer_details' => [
                 'first_name' => $user->name,
-                'email' => $user->email
+                'email' => $user->email,
             ],
             'enabled_payments' => [
-                'gopay', 'permata_va', 'other_va'
+                'gopay', 'permata_va', 'other_va',
             ],
-            'vtweb' => []
+            'vtweb' => [],
         ];
-
 
         try {
             // Get Snap Payment Page URL
@@ -77,8 +76,7 @@ class CheckoutController extends Controller
 
             // Redirect to Snap Payment Page
             return redirect($paymentUrl);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
@@ -108,20 +106,15 @@ class CheckoutController extends Controller
                     $transaction->status = 'SUCCESS';
                 }
             }
-        }
-        else if ($status = 'settlement') {
+        } elseif ($status = 'settlement') {
             $transaction->status = 'SUCCESS';
-        }
-        else if ($status = 'pending') {
+        } elseif ($status = 'pending') {
             $transaction->status = 'PENDING';
-        }
-        else if ($status = 'deny') {
+        } elseif ($status = 'deny') {
             $transaction->status = 'CANCELLED';
-        }
-        else if ($status = 'expire') {
+        } elseif ($status = 'expire') {
             $transaction->status = 'CANCELLED';
-        }
-        else if ($status = 'cancel') {
+        } elseif ($status = 'cancel') {
             $transaction->status = 'CANCELLED';
         }
 

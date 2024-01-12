@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,6 +37,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -63,6 +65,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereZipCode($value)
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -88,7 +91,7 @@ class User extends Authenticatable
         'regencies_id',
         'zip_code',
         'country',
-        'phone_number'
+        'phone_number',
     ];
 
     /**
@@ -109,6 +112,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // encrypt and decrypt using AES-256-CBC
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: static fn (string $value) => \Crypt::decrypt($value),
+            set: static fn (string $value) => \Crypt::encrypt($value),
+        );
+    }
+
+    protected function addressOne(): Attribute
+    {
+        return Attribute::make(
+            get: static fn (string $value) => \Crypt::decrypt($value),
+            set: static fn (string $value) => \Crypt::encrypt($value),
+        );
+    }
+
+    protected function addressTwo(): Attribute
+    {
+        return Attribute::make(
+            get: static fn (string $value) => \Crypt::decrypt($value),
+            set: static fn (string $value) => \Crypt::encrypt($value),
+        );
+    }
+
+    protected function phoneNumber(): Attribute
+    {
+        return Attribute::make(
+            get: static fn (string $value) => \Crypt::decrypt($value),
+            set: static fn (string $value) => \Crypt::encrypt($value),
+        );
+    }
 
     public function province()
     {

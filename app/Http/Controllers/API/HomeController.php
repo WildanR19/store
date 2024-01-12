@@ -8,7 +8,6 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -19,6 +18,4 @@ class HomeController extends Controller
 
         return ResponseFormatter::success(['category' => CategoryResource::collection($categories), 'products' => ProductResource::collection($products)], 'Load Success');
     }
-
-
 }

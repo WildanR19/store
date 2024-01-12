@@ -9,15 +9,13 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
 {
-
     public function index()
     {
-        if (request()->ajax())
-        {
+        if (request()->ajax()) {
             $query = Transaction::with(['user']);
 
             return DataTables::of($query)
-                ->addColumn('action', function($item) {
+                ->addColumn('action', function ($item) {
                     return '
                         <div class="btn-group">
                             <div class="dropdown">
@@ -25,9 +23,9 @@ class TransactionController extends Controller
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a href="'. route('transaction.edit', $item->id) .'" class="dropdown-item">Edit</a>
-                                    <form action="'. route('transaction.destroy', $item->id) .'" method="post">
-                                    '. csrf_field().''. method_field('delete') .'
+                                    <a href="'.route('transaction.edit', $item->id).'" class="dropdown-item">Edit</a>
+                                    <form action="'.route('transaction.destroy', $item->id).'" method="post">
+                                    '.csrf_field().''.method_field('delete').'
                                         <button class="dropdown-item text-danger" type="submit">Delete</button>
                                     </form>
                                 </div>
@@ -38,6 +36,7 @@ class TransactionController extends Controller
                 ->rawColumns(['action'])
                 ->make();
         }
+
         return view('pages.admin.transaction.index');
     }
 
@@ -54,7 +53,6 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -92,6 +90,7 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         Transaction::findOrFail($id)->delete();
+
         return redirect()->back();
     }
 }

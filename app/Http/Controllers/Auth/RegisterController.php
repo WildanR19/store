@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -46,13 +46,13 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $categories = Category::all();
+
         return view('auth.register', ['categories' => $categories]);
     }
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -63,14 +63,13 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'is_store_open' => ['required'],
             'store_name' => ['nullable', 'string', 'max:255'],
-            'category' => ['nullable', 'integer', 'exists:categories,id']
+            'category' => ['nullable', 'integer', 'exists:categories,id'],
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
      * @return \App\Models\User
      */
     protected function create(array $data)
@@ -81,7 +80,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'store_name' => $data['store_name'] ?? null,
             'category_id' => $data['category'] ?? null,
-            'store_status' => $data['is_store_open'] == 'true' ? 1 : 0
+            'store_status' => $data['is_store_open'] == 'true' ? 1 : 0,
         ]);
     }
 
