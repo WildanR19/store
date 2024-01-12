@@ -117,32 +117,32 @@ class User extends Authenticatable
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: static fn (string $value) => \Crypt::decrypt($value),
-            set: static fn (string $value) => \Crypt::encrypt($value),
+            get: static fn ($value) => $value ? \Crypt::decrypt($value) : '',
+            set: static fn ($value) => \Crypt::encrypt($value),
         );
     }
 
     protected function addressOne(): Attribute
     {
         return Attribute::make(
-            get: static fn (string $value) => \Crypt::decrypt($value),
-            set: static fn (string $value) => \Crypt::encrypt($value),
+            get: static fn ($value) => $value ? \Crypt::decrypt($value) : '',
+            set: static fn ($value) => \Crypt::encrypt($value),
         );
     }
 
     protected function addressTwo(): Attribute
     {
         return Attribute::make(
-            get: static fn (string $value) => \Crypt::decrypt($value),
-            set: static fn (string $value) => \Crypt::encrypt($value),
+            get: static fn ($value) => $value ? \Crypt::decrypt($value) : '',
+            set: static fn ($value) => \Crypt::encrypt($value),
         );
     }
 
     protected function phoneNumber(): Attribute
     {
         return Attribute::make(
-            get: static fn (string $value) => \Crypt::decrypt($value),
-            set: static fn (string $value) => \Crypt::encrypt($value),
+            get: static fn ($value) => $value ? \Crypt::decrypt($value) : '',
+            set: static fn ($value) => \Crypt::encrypt($value),
         );
     }
 
